@@ -1,7 +1,10 @@
 package com.zichan360.middle.beans;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.zichan360.middle.pojo.HlzxChatMsg;
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +18,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMsg {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatMsg.class);
+
     @JSONField(name = "msgid")
     private String msgId;
 
@@ -52,5 +58,26 @@ public class ChatMsg {
 
     @JSONField(name = "voiceid")
     private String voiceId;
+
+    private String originData;
+
+    public HlzxChatMsg transToHlzxMsg() {
+        HlzxChatMsg cm = new HlzxChatMsg();
+        cm.setMsgId(this.getMsgId());
+        cm.setSender(getFrom());
+        cm.setAction(this.getAction());
+        try {
+
+            cm.setReceiver(getToList().toArray(new String[0]));
+        } catch (Exception e) {
+            logger.error(originData);
+            e.printStackTrace();
+        }
+        cm.setOriginChatMsg(getOriginData());
+        cm.setChatTime(this.getMsgTime());
+        cm.setMsgType(this.getMsgType());
+        cm.setRoomId(this.getRoomId());
+        return cm;
+    }
 
 }

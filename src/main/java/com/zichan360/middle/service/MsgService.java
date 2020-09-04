@@ -1,12 +1,18 @@
 package com.zichan360.middle.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.wework.Finance;
 import com.zichan360.middle.beans.ChatEncryptMsgRes;
 import com.zichan360.middle.beans.ChatMsg;
+import com.zichan360.middle.mapper.ChatMsgMapper;
+import com.zichan360.middle.pojo.HlzxChatMsg;
 import com.zichan360.middle.util.RsaUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +22,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class MsgService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MsgService.class);
+
+    @Resource
+    private ChatMsgMapper chatMsgMapper;
 
     public static final String rsa =
             "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgwKfp3nrs6RBM\n" +
@@ -48,55 +59,42 @@ public class MsgService {
     public static final String secret = "yDaisJ5dSIF5j9uZzS6_xKHTvrzl0C-SfLcxr-KIbgo";
 
 
-    public static void main(String[] args) {
-        System.out.println(rsa);
-//        List<ChatMsg> cs = get("wmfogfCQAA9LRtct13LoN4T2goKfWcLw");
-//        cs.forEach(c -> {
-//            System.out.println(c.getFrom() + ", " + c.getToList() + " " +c.getMsgTime() +" " + c.getMsgType());
-//            if(c.getMixed() != null){
-//                System.out.println(JSONObject.toJSONString(c.getMixed()));
-//            }
-//            if (c.getText() != null){
-//                System.out.println(JSONObject.toJSONString(c.getText()));
-//            }
-//
-//        });
-        get("wmfogfCQAA9LRtct13LoN4T2goKfWcLw");
-    }
-
-    public static List<ChatMsg> get(String from) {
+    public List<ChatMsg> get(int sequence) {
         Long sdk = Finance.NewSdk();
         Finance.Init(sdk, corpId, secret);
         Long chatSlice = Finance.NewSlice();
-        int ret = Finance.GetChatData(sdk, 0, 1000, null, null, 1000, chatSlice);
+        int ret = Finance.GetChatData(sdk, sequence, 1000, null, null, 1000, chatSlice);
         if (ret != 0) {
             System.out.println("failer");
         }
         String response = Finance.GetContentFromSlice(chatSlice);
         ChatEncryptMsgRes res = JSONObject.parseObject(response, ChatEncryptMsgRes.class);
-        List<ChatMsg> chatMsgList = res.getChatData().stream().map(chat -> {
-            String encryptKey = chat.getEncryptKey();
-            Long msg = Finance.NewSlice();
-
-            Finance.DecryptData(sdk, RsaUtil.dencrypt(encryptKey, rsa), chat.getEncryptMst(), msg);
-            String orign = Finance.GetContentFromSlice(msg);
-            ChatMsg chatMsg = JSONObject.parseObject(orign, ChatMsg.class);
-            if (chatMsg.getFrom() != null && chatMsg.getFrom().equals("wmfogfCQAA9LRtct13LoN4T2goKfWcLw")) {
-                System.out.println(orign);
-            }
-            if ("meeting_voice_call".equals(chatMsg.getMsgType())) {
-                String sdkId = chatMsg.getMeetingVoiceCall().getSdkFileId();
-                Long media_data = Finance.NewMediaData();
-
-                int rets = Finance.GetMediaData(sdk, null, sdkId, null, null, 100, media_data);
-
-                System.out.printf("getmediadata outindex len:%d, data_len:%d, is_finis:%d\n",Finance.GetIndexLen(media_data),Finance.GetDataLen(media_data), Finance.IsMediaDataFinish(media_data));
-                System.out.println(Finance.GetContentFromSlice(media_data));
-                Finance.FreeSlice(media_data);
-            }
-            Finance.FreeSlice(msg);
-            return chatMsg;
-        }).collect(Collectors.toList());
+        List<ChatMsg> chatMsgList = res.getChatData()
+                .stream()
+                .map(chat -> {
+                    String encryptKey = chat.getEncryptKey();
+                    Long msg = Finance.NewSlice();
+                    Finance.DecryptData(sdk, RsaUtil.dencrypt(encryptKey, rsa), chat.getEncryptMst(), msg);
+                    String orign = Finance.GetContentFromSlice(msg);
+                    ChatMsg chatMsg = JSONObject.parseObject(orign, ChatMsg.class);
+                    chatMsg.setOriginData(orign);
+                    Finance.FreeSlice(msg);
+                    return chatMsg;
+                })
+                .filter(c -> !"switch".equals(c.getAction()))
+                .peek(c -> {
+                    try {
+                        QueryWrapper<HlzxChatMsg> queryWrapper = new QueryWrapper<>();
+                        queryWrapper.lambda().eq(HlzxChatMsg::getMsgId, c.getMsgId());
+                        if (chatMsgMapper.selectCount(queryWrapper) == 0) {
+                            chatMsgMapper.insert(c.transToHlzxMsg());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.error(c.getOriginData());
+                    }
+                })
+                .collect(Collectors.toList());
 
         Finance.FreeSlice(chatSlice);
         Finance.DestroySdk(sdk);

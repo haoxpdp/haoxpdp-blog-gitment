@@ -28,4 +28,16 @@ encrypt:
     FJEauJTXcTvecx7/G0RW4pnxaEO75ds6HGTAicGa4VE/Z9LzauEnQorii2V0YaqX\
     RLWja0mwOyab3IRW7CzR9IgfN4e5Q/H4Uy6VQ0lmlB18MFhkRDQed80znBZcXwOR\
     z7XlcwS/e8X23HnqwyLokVRW"
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://49.233.197.89:3306/detachment?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai
+      username: detachment
+      password: detachment_940330
+    url: jdbc:mysql://49.233.197.89:3306/detachment?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  type-handlers-package: com.zichan360.middle.config
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
