@@ -1,0 +1,30 @@
+server:
+  port: 9040
+encrypt:
+  rsa:
+    "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgwKfp3nrs6RBM\
+    QpgsN1pZZ+0g6COYInmBSeT7iqGGaN/dhS3L8uJ5M/2qkvDlPoGBu062gSMop/5A\
+    XfICK367q9CVtEOSrySJmj1Cdz9PjIaBPlZNqy8lyQgyRZw1vV4jaZdnuiBRLikk\
+    gURzBs3Bj4n6dnsWlrM0+WstH3/TDFWYesYVuD9LyM5qTrCKBuwNX/4swZxuqw+q\
+    ee0/s22vvwL/ybHuOX7QLRs26gMziK9kg0Gszc2lKC4cIRaptdnVmU8+NLLWTKaX\
+    J7abHCiWfLvQaWm48zsnqrb6mxGfkASNle5y1VjsBWFhr2bI+iNAtGCj3FLCGD02\
+    0SpTCLfzAgMBAAECggEBAN6kuzJoXOm375c8GTckFnKfCz8f97LL5AX5x8aPjHd0\
+    COCO/9Eb6NIceNuy+MR/6Rc1EEKnJscttCbbadRQdhk/mT/T9WSn79AIZUskiikp\
+    kk0SDbifLfOGdIIohxiNYWY/QedVcJI64jLxg3dXdBidMxhUqpaz7w85TbzDiYLs\
+    x7f3QOqubxDbIoKpHCUKu5QO6j+Ez4weU5+6dw1PLUaR/HBxtS8fIfeSGMa3Gw7x\
+    Ea9nua/NG0q/M2ZN7UGYhyHEoyXuqcVtXNy0vg7Xj81/d0KHAus1wXHYlXQQFW7a\
+    7d60zDTd5NbSTSvAFA0mJPs8pq/VPG8oLto1AriUYgECgYEA9X0xsTnsN8PywrLj\
+    NMavUetSEvSFfHIoY/4lCkJsL0DjXXtPdhdD/asxmE6v3Ay+t9VM0TfDSncxTGg0\
+    3HoAPu2uiLK7D1AfblZxP1c80ZRBT3u5K8G1J3ewX5naWq1X0g/Z6XnrEdupE7mT\
+    3oB8L9Cbm00AgjQIwTj+p75pjoECgYEA6mArUpnyvqO4uge0a+UhxGSfFRQyoifI\
+    lZ1e6kLyG6eytlRetC7DyM4nMVPAKMioEaFEVK7mfbDyiybUf7byLXUdqa2r2DyD\
+    aK7M5k6dfGrlLrrzPTU0AuQXTYqDVj1V/z0sgdrF4hFpr8NbpD5TXy8jVsMppvnx\
+    nlnXWUHrtHMCgYAr/45Cd2Ew9XuzDaDPOrT9d7G0GAM8tLEsisZUumbtaTHW9Vze\
+    i3jyJBa1d5TpWZdtF1u3O8lStV4ulZaz1WHp5WucsHv6WJ/phLCza41I+sth1Yjw\
+    oL05H6iK2eZaziqpSZIC2IkbIEWDdYVdIaYgY8Ef6oMm0vCmwPJTWjtNAQKBgQCZ\
+    LzXhjQEdHMDVxcdkZaQGSoW3LzZQyZPORccNcafv71Fc3hPvzEjma+ct1EFZ5pwC\
+    udaBSrcXG5nK3RwyRQ5QK6WxivMwJ4zz1JvTQzqnYO5d9o6YSLev1AhvA8MHkJsu\
+    cXsvfB+tvBfJavPwi1POeG6ufGwy2FXVW37mtbEqhQKBgAPFVcRH9Jj7ui/bymdD\
+    FJEauJTXcTvecx7/G0RW4pnxaEO75ds6HGTAicGa4VE/Z9LzauEnQorii2V0YaqX\
+    RLWja0mwOyab3IRW7CzR9IgfN4e5Q/H4Uy6VQ0lmlB18MFhkRDQed80znBZcXwOR\
+    z7XlcwS/e8X23HnqwyLokVRW"
