@@ -1,7 +1,9 @@
 package com.zichan360.middle;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.wework.Finance;
 import com.zichan360.middle.mapper.ChatMsgMapper;
+import com.zichan360.middle.pojo.HlzxChatMsg;
 import com.zichan360.middle.service.MsgService;
 import com.zichan360.middle.util.RsaUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author haoxp
@@ -43,6 +46,6 @@ public class App implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+        String id = "1302819186472402946";
     }
 }

@@ -33,4 +33,9 @@ public class WebController {
         return Result.success(chatService.getReceiverList(sender));
     }
 
+    @RequestMapping("/records")
+    public Result records(String sender, String receiver) {
+        return Result.success(chatService.getRecords(receiver, sender));
+    }
+
 }

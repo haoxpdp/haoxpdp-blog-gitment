@@ -20,7 +20,9 @@ public interface ChatMsgMapper extends BaseMapper<HlzxChatMsg> {
     @Select("select DISTINCT sender from hlzx_chat_msg")
     List<String> getSenderList();
 
-    @Select("select DISTINCT receiver,room_id from hlzx_chat_msg where sender = #{sender}")
-    List<Map<String,Object>> getReceverList(@Param("sender") String sender);
+    @Select("select DISTINCT receiver_sim from hlzx_chat_msg where sender = #{sender}")
+    List<String> getReceverList(@Param("sender") String sender);
 
+    @Select("select * from hlzx_chat_msg where (receiver_sim = #{sender} and sender = #{receiver}) or (receiver_sim=#{receiver} and sender =#{sender})")
+    List<HlzxChatMsg> records(@Param("sender") String sender,@Param("receiver") String receiver);
 }

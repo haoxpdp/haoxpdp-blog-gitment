@@ -1,7 +1,9 @@
 package com.zichan360.middle.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.zichan360.middle.beans.ChatMsg;
 import com.zichan360.middle.config.StringArrayTypeHandler;
 import com.zichan360.middle.mapper.ChatMsgMapper;
 import com.zichan360.middle.pojo.HlzxChatMsg;
@@ -32,12 +34,18 @@ public class ChatService {
     }
 
     public List<String> getReceiverList(String sender) {
-        return mapper.getReceverList(sender).stream()
-                .map(m -> {
-                    String[] receiver = StringArrayTypeHandler.toObject((String) m.get("receiver")) ;
-                    String roomId = (String) m.get("room_id");
-                    return receiver.length == 1 ? receiver[0] : roomId;
-                }).collect(Collectors.toList());
+        return mapper.getReceverList(sender);
+    }
+
+    public List<HlzxChatMsg> getRecords(String receiver, String sender) {
+        List<HlzxChatMsg> records = mapper.records(sender, receiver);
+        records.forEach((HlzxChatMsg r) -> {
+            ChatMsg chatMsg = JSONObject.parseObject(r.getOriginChatMsg(), ChatMsg.class);
+            if (chatMsg.getMsgType().equals("text")) {
+                r.setContent(chatMsg.getText().getContent());
+            }
+        });
+        return records;
     }
 
 }
