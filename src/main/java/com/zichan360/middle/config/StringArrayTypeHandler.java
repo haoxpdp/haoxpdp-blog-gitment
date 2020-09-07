@@ -34,21 +34,21 @@ public class StringArrayTypeHandler extends BaseTypeHandler<String[]> {
 
     @Override
     public String[] getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        return this.toObject(rs.getString(columnName));
+        return toObject(rs.getString(columnName));
     }
 
     @Override
     public String[] getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
 
-        return this.toObject(rs.getString(columnIndex));
+        return toObject(rs.getString(columnIndex));
     }
 
     @Override
     public String[] getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        return this.toObject(cs.getString(columnIndex));
+        return toObject(cs.getString(columnIndex));
     }
 
-    private String toJson(String[] params) {
+    public String toJson(String[] params) {
         try {
             return mapper.writeValueAsString(params);
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class StringArrayTypeHandler extends BaseTypeHandler<String[]> {
         return "[]";
     }
 
-    private String[] toObject(String content) {
+    public static String[] toObject(String content) {
         if (content != null && !content.isEmpty()) {
             try {
                 return mapper.readValue(content, String[].class);

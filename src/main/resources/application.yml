@@ -1,5 +1,7 @@
 server:
   port: 9040
+  servlet:
+    context-path: /chatmsg
 encrypt:
   rsa:
     "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgwKfp3nrs6RBM\
@@ -40,4 +42,3 @@ mybatis-plus:
   type-handlers-package: com.zichan360.middle.config
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-

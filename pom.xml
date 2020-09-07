@@ -51,5 +51,10 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.21</version>
         </dependency>
+        <dependency>
+            <groupId>cn.detachment</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0.8-RELEASE</version>
+        </dependency>
     </dependencies>
 </project>

@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @SpringBootApplication
-@RequestMapping("/chatMsg/audit")
+@RequestMapping("/audit")
 public class App implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -43,12 +43,6 @@ public class App implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int seq = 0;
-        int len = msgService.get(seq).size();
 
-        while (len >= 1000) {
-            seq += 1000;
-            len = msgService.get(seq).size();
-        }
     }
 }
