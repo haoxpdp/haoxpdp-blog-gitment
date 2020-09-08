@@ -33,9 +33,9 @@ encrypt:
 spring:
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://49.233.197.89:3306/detachment?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai
-      username: detachment
-      password: detachment_940330
+      jdbc-url: jdbc:mysql://49.233.197.89:3306/hlzx?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai
+      username: hlzx
+      password: Hlzx_2020
     url: jdbc:mysql://49.233.197.89:3306/detachment?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis-plus:
