@@ -2,6 +2,7 @@ package com.zichan360.middle.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.protobuf.ServiceException;
 import com.tencent.wework.Finance;
 import com.zichan360.middle.beans.ChatEncryptMsgRes;
 import com.zichan360.middle.beans.ChatMsg;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +102,51 @@ public class MsgService {
         Finance.FreeSlice(chatSlice);
         Finance.DestroySdk(sdk);
         return chatMsgList;
+    }
+
+
+    public String downLoad(String id) {
+        HlzxChatMsg msg = chatMsgMapper.selectById(id);
+        ChatMsg chatMsg = JSONObject.parseObject(msg.getOriginChatMsg(), ChatMsg.class);
+        String filePath = "D:\\tmp\\"+chatMsg.getMsgId()+".mp3";
+        File file = new File(filePath);
+        if (file.exists()) {
+            return filePath;
+        }
+
+        Long sdk = Finance.NewSdk();
+        Finance.Init(sdk, corpId, secret);
+        String indexBuf = "";
+        while (true) {
+            long media_data = Finance.NewMediaData();
+            int ret = Finance.GetMediaData(sdk, indexBuf, chatMsg.getMeetingVoiceCall().getSdkFileId(), null, null, 30000, media_data);
+            if (ret != 0) {
+                System.out.println(ret);
+                throw new RuntimeException("下载失败 ! " + ret);
+            }
+            System.out.printf("getmediadata outindex len:%d, data_len:%d, is_finis:%d\n", Finance.GetIndexLen(media_data), Finance.GetDataLen(media_data), Finance.IsMediaDataFinish(media_data));
+            try {
+                FileOutputStream outputStream = new FileOutputStream(new File(filePath));
+                outputStream.write(Finance.GetData(media_data));
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (Finance.IsMediaDataFinish(media_data) == 1) {
+                Finance.FreeMediaData(media_data);
+                break;
+            } else {
+                indexBuf = Finance.GetOutIndexBuf(media_data);
+                Finance.FreeMediaData(media_data);
+            }
+
+            Finance.FreeSlice(media_data);
+        }
+
+
+        Finance.DestroySdk(sdk);
+        return filePath;
     }
 
     public static void getMsg() {

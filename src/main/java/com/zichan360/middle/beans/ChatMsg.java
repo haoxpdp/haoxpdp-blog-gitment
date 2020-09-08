@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class ChatMsg {
     private String roomId;
 
     @JSONField(name = "msgtime")
-    private LocalDateTime msgTime;
+    private String msgTime;
 
     @JSONField(name = "msgtype")
     private String msgType;
@@ -59,6 +60,9 @@ public class ChatMsg {
     @JSONField(name = "voiceid")
     private String voiceId;
 
+    private Voice voice;
+
+
     private String originData;
 
     public HlzxChatMsg transToHlzxMsg() {
@@ -73,8 +77,14 @@ public class ChatMsg {
             logger.error(originData);
             e.printStackTrace();
         }
+        String sim = cm.getReceiver().length > 1 ? cm.getRoomId() : cm.getReceiver()[0];
+        cm.setReceiverSim(sim);
         cm.setOriginChatMsg(getOriginData());
-        cm.setChatTime(this.getMsgTime());
+        if (this.getMsgType().equals("meeting_voice_call")) {
+            this.setMsgTime(getMsgTime() + "000");
+        }
+
+        cm.setChatTime(new Date(Long.parseLong(this.getMsgTime())));
         cm.setMsgType(this.getMsgType());
         cm.setRoomId(this.getRoomId());
         return cm;

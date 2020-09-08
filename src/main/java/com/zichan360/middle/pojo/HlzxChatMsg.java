@@ -6,8 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 
 
 /**
@@ -22,15 +21,15 @@ public class HlzxChatMsg {
     private String msgId;
     private String action;
     private String originChatMsg;
-    private LocalDateTime chatTime;
+    private Date chatTime;
     private String msgType;
     private String sender;
     private String receiverSim;
     private String[] receiver;
     private String roomId;
     private Integer optimistic;
-    private LocalDateTime lastUpdateTime;
-    private LocalDateTime createTime;
+    private Date lastUpdateTime;
+    private Date createTime;
     @TableField(exist = false)
     private String content;
 
