@@ -33,4 +33,6 @@ public class HlzxChatMsg {
     @TableField(exist = false)
     private String content;
 
+    @TableField(exist = false)
+    private String msgTime;
 }

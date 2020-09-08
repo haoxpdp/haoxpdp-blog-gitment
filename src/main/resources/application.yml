@@ -3,6 +3,9 @@ server:
   servlet:
     context-path: /chatmsg
 encrypt:
+  secret: yDaisJ5dSIF5j9uZzS6_xKHTvrzl0C-SfLcxr-KIbgo
+  customerSecret: asdfadfasdf
+  corpId: ww33e37c528e3eae7d
   rsa:
     "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgwKfp3nrs6RBM\
     QpgsN1pZZ+0g6COYInmBSeT7iqGGaN/dhS3L8uJ5M/2qkvDlPoGBu062gSMop/5A\

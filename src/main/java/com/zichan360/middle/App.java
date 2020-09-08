@@ -1,13 +1,14 @@
 package com.zichan360.middle;
 
+import cn.detach.api.annoation.RemoteApiScanner;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.wework.Finance;
+import com.zichan360.middle.api.WxApi;
 import com.zichan360.middle.beans.ChatMsg;
 import com.zichan360.middle.mapper.ChatMsgMapper;
 import com.zichan360.middle.pojo.HlzxChatMsg;
 import com.zichan360.middle.service.MsgService;
-import com.zichan360.middle.util.RsaUtil;
+import com.zichan360.middle.service.WxService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
 
 import static com.zichan360.middle.service.MsgService.*;
 
@@ -29,6 +29,7 @@ import static com.zichan360.middle.service.MsgService.*;
 @RestController
 @SpringBootApplication
 @RequestMapping("/audit")
+@RemoteApiScanner(basePackages = "com.zichan360.middle.api")
 public class App implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -50,10 +51,14 @@ public class App implements CommandLineRunner {
         return "running";
     }
 
+    @Resource
+    private WxService wxService;
+
     @Override
     public void run(String... args) throws Exception {
 //        testDownVoice();
-        getMsg();
+//        getMsg();
+        wxService.getRemoteCustomerList("haoxueping");
     }
 
     public void getMsg() {

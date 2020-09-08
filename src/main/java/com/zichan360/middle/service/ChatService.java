@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,6 +45,7 @@ public class ChatService {
             if (chatMsg.getMsgType().equals("text")) {
                 r.setContent(chatMsg.getText().getContent());
             }
+            r.setMsgTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(r.getChatTime()));
         });
         return records;
     }

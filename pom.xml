@@ -56,5 +56,16 @@
             <artifactId>core</artifactId>
             <version>1.0.8-RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>cn.detachment</groupId>
+            <artifactId>detach-api</artifactId>
+            <version>1.0.8-RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
+        </dependency>
     </dependencies>
 </project>
