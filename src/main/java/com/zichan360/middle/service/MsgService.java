@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -108,7 +110,11 @@ public class MsgService {
     public String downLoad(String id) {
         HlzxChatMsg msg = chatMsgMapper.selectById(id);
         ChatMsg chatMsg = JSONObject.parseObject(msg.getOriginChatMsg(), ChatMsg.class);
-        String filePath = "D:\\tmp\\"+chatMsg.getMsgId()+".mp3";
+        String defaultSuffix = ".mp3";
+        if ("image".equals(chatMsg.getMsgType())) {
+            defaultSuffix = ".png";
+        }
+        String filePath = "D:\\tmp\\" + chatMsg.getMsgId() + defaultSuffix;
         File file = new File(filePath);
         if (file.exists()) {
             return filePath;
@@ -119,7 +125,7 @@ public class MsgService {
         String indexBuf = "";
         while (true) {
             long media_data = Finance.NewMediaData();
-            int ret = Finance.GetMediaData(sdk, indexBuf, chatMsg.getMeetingVoiceCall().getSdkFileId(), null, null, 30000, media_data);
+            int ret = Finance.GetMediaData(sdk, indexBuf, sdkFileIdMap.get(chatMsg.getMsgType()).getSdkFileId(chatMsg), null, null, 30000, media_data);
             if (ret != 0) {
                 System.out.println(ret);
                 throw new RuntimeException("下载失败 ! " + ret);
@@ -161,4 +167,15 @@ public class MsgService {
         Finance.DestroySdk(sdk);
     }
 
+    static Map<String, SdkFileId> sdkFileIdMap = new HashMap<>();
+
+    static {
+        sdkFileIdMap.put("voice", chatMsg -> chatMsg.getVoice().getSdkFileId());
+        sdkFileIdMap.put("meeting_voice_call", chatMsg -> chatMsg.getMeetingVoiceCall().getSdkFileId());
+        sdkFileIdMap.put("image", chatMsg -> chatMsg.getImage().getSdkFileId());
+    }
+
+    interface SdkFileId {
+        String getSdkFileId(ChatMsg chatMsg);
+    }
 }

@@ -62,6 +62,8 @@ public class ChatMsg {
 
     private Voice voice;
 
+    private ImageBean image;
+
 
     private String originData;
 
