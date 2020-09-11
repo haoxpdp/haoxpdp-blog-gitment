@@ -1,4 +1,4 @@
-package com.zichan360.middle.beans;
+package com.zichan360.middle.beans.msg;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MeetingVoiceCall {
+public class MeetingVoiceMsg {
     @JSONField(name = "endtime")
     private LocalDateTime endTime;
 

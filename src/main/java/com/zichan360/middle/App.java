@@ -57,8 +57,8 @@ public class App implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //        testDownVoice();
-//        getMsg();
-        wxService.getRemoteCustomerList("haoxueping");
+        getMsg();
+//        wxService.getRemoteCustomerList("haoxueping");
     }
 
     public void getMsg() {

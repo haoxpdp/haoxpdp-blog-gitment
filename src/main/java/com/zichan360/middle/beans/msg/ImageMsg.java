@@ -1,4 +1,4 @@
-package com.zichan360.middle.beans;
+package com.zichan360.middle.beans.msg;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.*;
@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageBean {
+public class ImageMsg {
 
     @JSONField(name = "md5sum")
     String md5Sum;

@@ -110,11 +110,16 @@ public class MsgService {
     public String downLoad(String id) {
         HlzxChatMsg msg = chatMsgMapper.selectById(id);
         ChatMsg chatMsg = JSONObject.parseObject(msg.getOriginChatMsg(), ChatMsg.class);
-        String defaultSuffix = ".mp3";
+        String fileName = chatMsg.getMsgId();
+
         if ("image".equals(chatMsg.getMsgType())) {
-            defaultSuffix = ".png";
+            fileName = fileName + ".png";
+        } else if ("file".equals(chatMsg.getMsgType())) {
+            fileName = chatMsg.getFile().getFileName();
+        } else if ("meeting_voice_call".equals(chatMsg.getMsgType())) {
+            fileName = fileName + ".mp3";
         }
-        String filePath = "D:\\tmp\\" + chatMsg.getMsgId() + defaultSuffix;
+        String filePath = "D:\\tmp\\" + fileName;
         File file = new File(filePath);
         if (file.exists()) {
             return filePath;
@@ -173,6 +178,7 @@ public class MsgService {
         sdkFileIdMap.put("voice", chatMsg -> chatMsg.getVoice().getSdkFileId());
         sdkFileIdMap.put("meeting_voice_call", chatMsg -> chatMsg.getMeetingVoiceCall().getSdkFileId());
         sdkFileIdMap.put("image", chatMsg -> chatMsg.getImage().getSdkFileId());
+        sdkFileIdMap.put("file", chatMsg -> chatMsg.getFile().getSdkFileId());
     }
 
     interface SdkFileId {

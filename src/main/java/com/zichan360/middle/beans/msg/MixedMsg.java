@@ -1,4 +1,4 @@
-package com.zichan360.middle.beans;
+package com.zichan360.middle.beans.msg;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

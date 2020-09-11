@@ -1,12 +1,12 @@
 package com.zichan360.middle.beans;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.zichan360.middle.beans.msg.*;
 import com.zichan360.middle.pojo.HlzxChatMsg;
 import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -55,14 +55,16 @@ public class ChatMsg {
      * 语音通话
      */
     @JSONField(name = "meeting_voice_call")
-    private MeetingVoiceCall meetingVoiceCall;
+    private MeetingVoiceMsg meetingVoiceCall;
 
     @JSONField(name = "voiceid")
     private String voiceId;
 
-    private Voice voice;
+    private VoiceMsg voice;
 
-    private ImageBean image;
+    private ImageMsg image;
+
+    private FileMsg file;
 
 
     private String originData;
